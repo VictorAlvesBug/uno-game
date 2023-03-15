@@ -13,19 +13,17 @@ const jogo = createJogo();
 const qtdeJogadores = 2;
 const qtdeCartasPorJogador = 7;
 
-const listaJogadores = Array(qtdeJogadores).fill(createJogador());
+const listaJogadores = [];
 
-Array(qtdeCartasPorJogador)
-  .fill()
-  .forEach((_) => {
-    listaJogadores.forEach((jogador) => {
-      jogador.receberCarta(jogo.sortearCarta());
-    });
-  });
+for(let indiceJogador = 0; indiceJogador < qtdeJogadores; indiceJogador++){
+  const jogador = createJogador();
+  
+  for(let indiceCarta = 0; indiceCarta < qtdeCartasPorJogador; indiceCarta++){
+    jogador.receberCarta(jogo.sortearCarta());
+  }
 
-listaJogadores.forEach((jogador) => {
-  console.log(jogador.cartas.length);
-});
+  listaJogadores.push(jogador);
+}
 
 const cartaMesa = jogo.sortearCarta();
 
@@ -33,8 +31,8 @@ console.log('Carta da Mesa:');
 console.log(cartaMesa);
 
 listaJogadores.forEach((jogador, indice) => {
-  console.log(`Cartas do Jogador ${indice + 1}:`);
-  jogador.cartas.forEach((carta) => {
+  console.log(`Cartas do Jogador ${indice + 1} compatíveis:`);
+  jogador.cartas.filter(carta => jogo.podeEmpilharCarta(cartaMesa, carta)).forEach((carta) => {
     console.log(carta);
-  });
+  });
 });
